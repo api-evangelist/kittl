@@ -1,0 +1,108 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/Guides/Advanced/authentication
+docs: https://sdk-docs.kittl.dev/Guides/Advanced/authentication
+notes: >-
+  Derived mechanically-by-script is not possible here — Kittl publishes no OpenAPI, so
+  0-working/derive-authentication.py has no securitySchemes to read. This profile is
+  searched from the published SDK documentation instead. Kittl's app platform has three
+  distinct authentication surfaces, captured separately below: (1) CLI developer login,
+  (2) an app-to-backend user identity token, and (3) an OAuth *client* helper that lets a
+  sandboxed app authenticate against a third-party provider without exposing secrets in
+  the browser. Kittl does not operate a public OAuth authorization server of its own and
+  publishes no /.well-known/openid-configuration or /.well-known/oauth-authorization-server.
+summary:
+  types:
+  - jwt
+  - oauth2-client
+  - interactive-device-login
+  api_key_in: []
+  oauth2_flows:
+  - authorizationCode
+  oauth2_role: client-only
+  authorization_server_published: false
+schemes:
+- name: cli-session
+  surface: Kittl CLI
+  type: interactive-device-login
+  description: >-
+    `kittl auth login` signs a developer in. It attempts to open a browser and also
+    prints a URL plus a short code that can be completed on another device.
+  human_required: true
+  non_interactive_supported: false
+  non_interactive_note: >-
+    Token-based non-interactive auth (--non-interactive for login) is documented as not
+    yet supported, so unattended CI publishing is not currently possible.
+  source: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+- name: kittl-user-token
+  surface: App frontend to app backend
+  type: jwt
+  description: >-
+    The app frontend obtains a short-lived Kittl user JWT via
+    `kittl.auth.getUserToken()` and sends it to the app's own backend, which verifies it
+    with @kittl/sdk-backend.
+  verification:
+    package: '@kittl/sdk-backend'
+    method: KittlSDK.verifyUserToken(token)
+    audience: appId
+    audience_note: >-
+      appId is used as the JWT audience, so tokens issued for a different app are
+      rejected.
+    subject: >-
+      The verified token's `sub` claim is a pseudonymous per-app user ID — it is not a
+      stable cross-app Kittl user identifier.
+    error: TokenInvalidError (return 401 Unauthorized)
+    signing_key_cache:
+      default: in-memory per SDK instance
+      default_max_age_ms: 3600000
+      default_max_entries: 5
+      pluggable: true
+      pluggable_note: >-
+        A persistent SigningKeyCache can be supplied to reuse keys across restarts and
+        cold starts on edge/serverless backends.
+  source: https://sdk-docs.kittl.dev/getting-started/sdk-backend
+- name: oauth-providers
+  surface: Sandboxed app to third-party provider
+  type: oauth2
+  role: client
+  description: >-
+    An app declares third-party OAuth providers in manifest.json under
+    `config.oauthProviders` and runs the flow through `kittl.auth`, so provider secrets
+    are never exposed in the sandboxed client.
+  flows:
+  - flow: authorizationCode
+    pkce_supported: true
+    pkce_note: >-
+      Pass generatePKCE: true to kittl.auth.startAuth; recommended when the provider
+      supports OAuth 2.1 / PKCE.
+    authorizationUrl: declared per provider in manifest.json (config.oauthProviders.<id>.authorizationUrl)
+    tokenUrl: declared per provider in manifest.json (config.oauthProviders.<id>.tokenUrl)
+  redirect_uri: https://app.kittl.com/auth/callback/:appId
+  redirect_uri_note: ':appId is the app''s ID; this must be registered as the callback with the provider.'
+  manifest_fields:
+  - clientId
+  - scope
+  - authorizationUrl
+  - tokenUrl
+  - accessType
+  - customFieldMappings
+  methods:
+  - method: kittl.auth.startAuth
+    purpose: Begin the flow; returns an authorization code (and code_verifier with PKCE).
+  - method: kittl.auth.exchangeCode
+    purpose: Exchange the authorization code for the provider's token response payload.
+  - method: kittl.auth.getAuthToken
+    purpose: Restore a previously stored token on app reload.
+  - method: kittl.auth.getUserToken
+    purpose: Obtain the short-lived Kittl user JWT for app-backend verification.
+authorization_model:
+  type: sdk-scopes
+  artifact: scopes/kittl-scopes.yml
+  description: >-
+    Beyond authentication, SDK call authorization is governed by the static scope set an
+    app declares in manifest.json config.scopes, enforced by the editor host at call time.
+security_contact: security@kittl.com
+related:
+- scopes/kittl-scopes.yml
+- conventions/kittl-conventions.yml
+- json-schema/kittl-extension-manifest-schema.json
