@@ -1,0 +1,14 @@
+{
+  "repo": "kittl",
+  "feeds": [
+    {
+      "source": "https://help.kittl.com/",
+      "feed_url": "https://help.kittl.com/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-07-25T15:00:33Z"
+}

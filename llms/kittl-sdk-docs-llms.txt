@@ -1,0 +1,15 @@
+# @kittl/sdk-docs
+
+> Kittl SDK Documentation
+
+## Metadata
+- Version: 0.0.1
+- Full Context: /llms-full.txt
+
+## Main Sections
+- [Getting Started](/docs/getting-started)
+- [Guides](/docs/Guides)
+- [API References](/docs/References)
+
+## Usage
+This file is a map for LLMs. For the full API surface area including all TypeScript definitions, please refer to the llms-full.txt file.

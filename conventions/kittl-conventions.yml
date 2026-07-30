@@ -1,0 +1,151 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/getting-started/sdk
+docs: https://sdk-docs.kittl.dev/getting-started/sdk
+surface: sdk
+surface_note: >-
+  Kittl's developer surface is a client-side SDK for sandboxed apps running inside the
+  editor, not a request/response HTTP API. The cross-cutting semantics below are
+  therefore SDK-shaped (result envelopes, readiness, batching, subscriptions) rather than
+  HTTP-shaped (no pagination headers, no HTTP status codes, no rate-limit headers).
+  Conventions that do not apply are recorded explicitly as not_applicable so this file is
+  an honest map rather than a padded one.
+runtime_model:
+  isolation: >-
+    App code runs in an isolated iframe inside the Kittl editor UI.
+  transport: postMessage through the global `kittl` object
+  async: >-
+    SDK calls are async because they execute in the host editor context. Most methods
+    return SdkResultAsync (a Promise); some synchronous design methods return SdkResult
+    directly. Both share the same { isOk, result, error } shape.
+  readiness:
+    required: true
+    callback: kittl.onReady
+    description: >-
+      SDK APIs must only be called after the bridge is ready. kittl.onReady is exempt
+      from scope checks.
+authentication:
+  style: manifest-declared scopes plus per-surface tokens
+  artifact: authentication/kittl-authentication.yml
+authorization:
+  style: static declared scopes
+  declaration: manifest.json config.scopes
+  enforcement: host-side at call time
+  artifact: scopes/kittl-scopes.yml
+result_envelope:
+  name: SdkResult
+  success: '{ isOk: true, result: T }'
+  failure: '{ isOk: false, error: E }'
+  discipline: >-
+    Check isOk before reading result. All SDK calls return this envelope — there is no
+    exception-throwing path for normal failures.
+  async_variant: SdkResultAsync
+error_envelope:
+  artifact: errors/kittl-problem-types.yml
+  format: discriminated-union
+  discriminator: error.name
+  discriminator_caveat: >-
+    error.name is only a safe discriminator for APIs that document SdkError. Some methods
+    (for example kittl.ai.spendCredits) return a generic Error instead.
+  fields:
+  - name
+  - message
+  - cause
+idempotency:
+  supported: false
+  evidence: >-
+    No idempotency key, replay protection, or safe-retry contract is documented anywhere
+    in the published Kittl SDK documentation. Design mutations are direct state edits
+    against the live editor document, undone through editor history rather than through a
+    request-deduplication mechanism. No Idempotency pointer is emitted for this provider.
+batching:
+  supported: true
+  atomic: true
+  factory: kittl.createBatch()
+  commit: batch.commit()
+  single_use: true
+  single_use_note: A batch is single-use — calling commit() again throws an error.
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Design/BatchUpdates
+  description: >-
+    kittl.createBatch() returns a batch object exposing the same API surface as
+    kittl.design, plus commit() to apply all queued changes at once. All changes in a
+    batch are applied atomically. This is the closest thing Kittl publishes to a
+    transactional write contract — note it is atomicity, not idempotency: replaying a
+    committed batch would duplicate its effects.
+state_subscriptions:
+  supported: true
+  kinds:
+  - name: app state subscriptions
+    docs: https://sdk-docs.kittl.dev/Guides/Basic/State/AppStateSubscriptions
+  - name: design state subscriptions
+    docs: https://sdk-docs.kittl.dev/Guides/Basic/State/DesignStateSubscriptions
+  mechanism: >-
+    KittlStateStore.subscribe(selector, callback) returns an unsubscribe function; the
+    callback receives the selected value plus a meta object carrying the patch tree and
+    the sender origin.
+inter_app_messaging:
+  supported: true
+  namespace: kittl.stateless
+  methods:
+  - kittl.stateless.send
+  - kittl.stateless.subscribe
+  - kittl.stateless.unsubscribe
+  scope_exempt: true
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Stateless
+headless_execution:
+  supported: true
+  name: script runner / headless runner
+  declaration: manifest.json config.embed.scriptRunner.path
+  description: >-
+    An optional second HTML entrypoint runs as a hidden iframe with full SDK access and
+    no visible UI, for background logic such as AI pipelines and data sync.
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/HeadlessRunners
+positioning:
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Positioning
+  modes:
+  - absolute: '{ absolute: { left, top } }'
+  - relative: '{ relative: { to: ''viewport'', location: ''center'' } }'
+  viewport_scale_flag: applyViewportScale
+versioning:
+  sdk:
+    scheme: semver-0.x
+    current: 0.0.8
+    script_tag_note: >-
+      The script-tag delivery URL is documented as embedding a channel ("staging") and
+      the major version ("v0" for 0.x); window.kittl is used in that mode.
+  app:
+    scheme: auto-incremented draft versions
+    immutability: >-
+      A version submitted with `kittl app release` is immutable; further work continues
+      on a new draft at the next version.
+  artifact: lifecycle/kittl-lifecycle.yml
+pagination:
+  not_applicable: true
+  reason: >-
+    No HTTP collection endpoints. Catalog reads (kittl.data.mockups.search,
+    kittl.data.fonts.list*) are SDK calls; no cursor or offset convention is documented.
+rate_limiting:
+  not_applicable: true
+  reason: >-
+    No HTTP rate-limit headers are documented. The nearest metering concept is AI credit
+    spend, gated by the ai:credit:spend scope via kittl.ai.spendCredits.
+  metering:
+    mechanism: AI credits
+    scope: ai:credit:spend
+    methods:
+    - kittl.ai.spendCredits
+    - kittl.ai.startGeneration
+    docs: https://sdk-docs.kittl.dev/Guides/Basic/AI
+request_tracing:
+  documented: false
+  note: No request-id or correlation-id convention is documented for SDK calls.
+field_expansion:
+  documented: false
+metadata:
+  documented: false
+related:
+- errors/kittl-problem-types.yml
+- scopes/kittl-scopes.yml
+- authentication/kittl-authentication.yml
+- lifecycle/kittl-lifecycle.yml
+- data-model/kittl-data-model.yml

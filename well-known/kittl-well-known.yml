@@ -1,0 +1,61 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.kittl.com/.well-known/
+host: https://www.kittl.com
+notes: >-
+  Probed www.kittl.com, api.kittl.com, help.kittl.com and sdk-docs.kittl.dev. Only the
+  RFC 9116 security.txt on the marketing host returned 200; a 404 control path confirmed
+  the host is not a catch-all. api.kittl.com is an internal service host (root returns
+  the literal string "oink!") and publishes no discovery documents, though it does serve
+  the canonical extension manifest JSON Schema at /extensions/manifest/schema.json
+  (captured in json-schema/).
+documents:
+- path: /.well-known/security.txt
+  status: 200
+  file: kittl-security.txt
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  status: 404
+- path: /.well-known/api-catalog
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+- path: /llms.txt
+  status: 200
+  file: ../llms/kittl-llms.txt
+other_hosts:
+- host: https://api.kittl.com
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /extensions/manifest/schema.json
+    status: 200
+    file: ../json-schema/kittl-extension-manifest-schema.json
+- host: https://sdk-docs.kittl.dev
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/kittl-sdk-docs-llms.txt
+  - path: /llms-full.txt
+    status: 200
+    file: null
+    note: >-
+      Published and verified (260,770 bytes) but intentionally not committed —
+      *-llms-full.txt is gitignored per the enrichment pipeline contract.
+- host: https://help.kittl.com
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 404

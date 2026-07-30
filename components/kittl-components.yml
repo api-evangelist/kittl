@@ -1,0 +1,100 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/UI-Kit/
+docs: https://sdk-docs.kittl.dev/UI-Kit/
+name: Kittl UI Kit
+summary: >-
+  Kittl ships a first-party client-side component library so sandboxed apps render
+  natively inside the editor panel. Distinct from the SDK in packages/ — these are
+  presentational UI primitives, not editor-state APIs.
+loaders:
+- package: '@kittl/ui'
+  registry: npm
+  url: https://www.npmjs.com/package/@kittl/ui
+  description: Kittl UI components.
+- package: '@kittl/ui-react'
+  registry: npm
+  url: https://www.npmjs.com/package/@kittl/ui-react
+  description: React wrapper for Kittl UI components.
+- package: '@kittl/ui-icons'
+  registry: npm
+  url: https://www.npmjs.com/package/@kittl/ui-icons
+  description: Icon collection used across Kittl's UI.
+  docs: https://sdk-docs.kittl.dev/Icons/
+- package: '@kittl/ui-tokens'
+  registry: npm
+  url: https://www.npmjs.com/package/@kittl/ui-tokens
+  description: Design tokens backing the UI kit.
+families:
+- family: Actions
+  components:
+  - name: Button
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Button
+  - name: BlankButton
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/BlankButton
+- family: Inputs
+  components:
+  - name: Input
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Input
+  - name: SearchInput
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/SearchInput
+  - name: Slider
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Slider
+- family: Layout
+  components:
+  - name: Card
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Card
+  - name: Header
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Header
+  - name: Accordion
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Accordion
+  - name: Tabs
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Tabs
+  - name: MasonryGrid
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/MasonryGrid
+  - name: ScrollableArea
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/ScrollableArea
+- family: Overlays
+  components:
+  - name: Menu
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Menu
+  - name: Popover
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Popover
+  - name: Tooltip
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Tooltip
+  - name: Toast
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Toast
+- family: Display
+  components:
+  - name: Text
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Text
+  - name: Image
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Image
+  - name: Icon
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Icon
+  - name: Avatar
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Avatar
+  - name: Badge
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Badge
+  - name: Tag
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Tag
+  - name: Spinner
+    docs: https://sdk-docs.kittl.dev/UI-Kit/Components/Spinner
+component_count: 22
+editor_surfaces:
+  note: >-
+    Beyond the UI kit, the manifest declares where an app mounts inside the editor.
+  surfaces:
+  - name: mainAppPanel
+    manifest_path: config.embed.mainAppPanel.path
+    description: HTML entrypoint for the app's visible main panel.
+    required: true
+  - name: scriptRunner
+    manifest_path: config.embed.scriptRunner.path
+    description: >-
+      Optional hidden-iframe headless runner with full SDK access and no visible UI.
+    required: false
+    docs: https://sdk-docs.kittl.dev/Guides/Basic/HeadlessRunners
+related:
+- packages/kittl-packages.yml
+- json-schema/kittl-extension-manifest-schema.json

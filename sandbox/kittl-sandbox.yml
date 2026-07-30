@@ -1,0 +1,69 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/Guides/Setup/LocalDevelopment
+docs: https://sdk-docs.kittl.dev/Guides/Setup/LocalDevelopment
+model: local-development-mode
+model_note: >-
+  Kittl is not a payments or transactional API, so there are no test keys, test cards or
+  magic test identifiers to capture. Its sandbox is a genuine local-development mode: the
+  editor can be pointed at a developer's local dev server instead of the app's uploaded
+  production assets, and a draft app is private to the developer's own account until it
+  is approved and published. No test credentials of any kind are published, and none are
+  invented here.
+test_vs_live:
+  mechanism: draft versions and a per-app version dropdown in the editor
+  description: >-
+    An app must have an active draft version installed to the developer's own account
+    before local development is possible. The draft is private and not visible to other
+    users until it is officially published and approved. The editor then shows a version
+    dropdown offering a "local development" version of the app.
+  isolation: >-
+    Selecting "local development" configures the editor to load the app from the local
+    dev server instead of the production assets.
+local_dev:
+  default_origin: http://localhost:5173
+  default_port: 5173
+  configuration:
+    manifest_path: config.appDevelopment.local
+    example: |
+      "appDevelopment": {
+        "local": {
+          "requireHTTPS": true,
+          "port": 5173
+        }
+      }
+    fields:
+    - name: port
+      description: The localhost port the editor should try to connect to (e.g. 5173).
+      default: 5173
+    - name: requireHTTPS
+      description: >-
+        When true the editor loads local dev-server assets over https:// instead of
+        http://. Useful when a third-party OAuth provider expects a secure origin, and
+        requires the local dev server (Vite, Webpack, …) to be configured with SSL.
+      default: false
+  scaffolding:
+    command: kittl app init
+    description: >-
+      In a fresh directory the CLI can scaffold a small Vite + HTML entrypoint layout. If
+      package.json already exists scaffolding is skipped, though the CLI still creates
+      manifest.json when it is missing so the draft step can run.
+prerequisites:
+- A Kittl account (kittl auth login)
+- Beta gating — the account must be approved for app creation by a Kittl admin
+- An active draft version of the app, installed to the developer's own account
+test_credentials:
+  published: false
+  note: >-
+    No test API keys, sandbox tokens, seeded fixtures or magic values are published.
+    Third-party OAuth providers declared in config.oauthProviders are configured with the
+    developer's own real client credentials; the documented callback is
+    https://app.kittl.com/auth/callback/:appId.
+fixtures:
+  published: false
+time_simulation:
+  published: false
+related:
+- cli/kittl-cli.yml
+- json-schema/kittl-extension-manifest-schema.json
+- authentication/kittl-authentication.yml

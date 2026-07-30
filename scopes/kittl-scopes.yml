@@ -1,0 +1,154 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/getting-started/scopes
+docs: https://sdk-docs.kittl.dev/getting-started/scopes
+schema: https://api.kittl.com/extensions/manifest/schema.json
+model: sdk-scopes
+model_note: >-
+  These are NOT OAuth 2.0 authorization-server scopes. Kittl's scope system governs which
+  SDK operations a sandboxed app may call inside the editor host. Scopes are declared
+  statically by the developer in manifest.json under `config.scopes` (a required field)
+  and enforced by the host at call time. Kittl separately supports OAuth as a *client*
+  — an app may declare third-party OAuth providers under `config.oauthProviders` and run
+  the flow via kittl.auth — but Kittl does not publish an authorization server of its own.
+  See authentication/kittl-authentication.yml.
+declaration:
+  file: manifest.json
+  path: config.scopes
+  required: true
+  empty_allowed: true
+  empty_behavior: >-
+    An empty array ([]) is valid; with an empty scope set many SDK calls will be denied
+    by scope checks.
+error_behavior: >-
+  Calling a method without the required scope fails with an SDK error result
+  (isOk: false) and a permission-denied style message. Kittl advises requesting the
+  smallest scope set that covers all methods the app calls.
+scopes:
+- scope: design:state:read
+  description: Read design and editor state via SDK APIs.
+  methods:
+  - kittl.design.canvas.getPreviewImage
+  - kittl.design.canvas.getScreenshot
+  - kittl.design.canvas.getExport
+  - kittl.design.object.getObject
+  - kittl.design.object.getAllByFilter
+  - kittl.state.viewport.get
+  - kittl.state.getSelectedObjectsIds
+  - kittl.state.getSelectedLayersIds
+  - kittl.state.getSelectedArtboardIds
+  - kittl.state.getCanvasMode
+  - kittl.state.getActiveTool
+  - kittl.state.getHighlightedObjectId
+- scope: design:state:write
+  description: >-
+    Update design state (for example add, remove, and update objects).
+  methods:
+  - kittl.design.board.createStandardBoard
+  - kittl.design.board.cloneArtboard
+  - kittl.design.board.updateArtboard
+  - kittl.design.text.addText
+  - kittl.design.text.updateText
+  - kittl.design.text.updateRenderPlugin
+  - kittl.design.text.updateDecorationPlugin
+  - kittl.design.shape.createPredefinedShape
+  - kittl.design.shape.createBasicShape
+  - kittl.design.shape.updateShape
+  - kittl.design.shape.convertShapeToMask
+  - kittl.design.image.addImage
+  - kittl.design.image.updateImage
+  - kittl.design.video.addVideo
+  - kittl.design.video.updateVideo
+  - kittl.design.video.updatePlaylistItem
+  - kittl.design.video.removePlaylistItem
+  - kittl.design.object.removeObject
+  - kittl.design.object.setLockedState
+  - kittl.design.object.setHiddenState
+  - kittl.design.object.rotateObject
+  - kittl.design.object.rename
+  - kittl.design.config.setConfig
+  - kittl.design.loadingCard.createLoadingCard
+  - kittl.design.loadingCard.updateLoadingCard
+  - kittl.design.mockupboard.addMockupBoard
+  - kittl.design.mockupboard.addMockupDesignObject
+  - kittl.design.mockupboard.updateMockupBoard
+  - kittl.state.setSelectedObjectsIds
+  - kittl.state.setSelectedLayersIds
+  - kittl.state.setSelectedArtboardIds
+  - kittl.state.setCanvasMode
+  - kittl.state.setActiveTool
+  - kittl.state.setHighlightedObjectId
+  - kittl.state.setMany
+  - kittl.state.viewport.set
+- scope: uploads:create
+  description: >-
+    Upload files with kittl.upload.image.upload({ blob }); apps can then use their own
+    uploaded files.
+  methods:
+  - kittl.upload.image.upload
+- scope: uploads:global:read
+  description: >-
+    Allows an app to read all uploads available in the current workspace (not limited to
+    the current user's uploads).
+- scope: ai:credit:spend
+  description: Spend AI credits via kittl.ai.spendCredits.
+  methods:
+  - kittl.ai.spendCredits
+  - kittl.ai.startGeneration
+  - kittl.ai.registerHandler
+- scope: fonts:read
+  description: Read fonts created by the extension.
+  methods:
+  - kittl.data.fonts.listExtensionFonts
+  - kittl.data.fonts.get
+  - kittl.data.fonts.find
+  method_note: These methods accept fonts:read or fonts:read:global.
+- scope: fonts:write
+  description: Create or modify fonts created by the extension via kittl.data.fonts.
+  methods:
+  - kittl.data.fonts.create
+  - kittl.data.fonts.update
+  - kittl.data.fonts.delete
+  - kittl.data.fonts.destroy
+  - kittl.data.fonts.addStyle
+  - kittl.data.fonts.updateStyle
+  method_note: >-
+    kittl.data.fonts.create requires fonts:write specifically; the remaining write
+    methods accept fonts:write or fonts:write:global.
+- scope: fonts:read:global
+  description: Read all custom fonts available to the user.
+  methods:
+  - kittl.data.fonts.listUserFonts
+- scope: fonts:write:global
+  description: Modify all custom fonts available to the user.
+- scope: data:mockups:read
+  description: Browse and search the mockup catalog via kittl.data.mockups.
+  methods:
+  - kittl.data.mockups.get
+  - kittl.data.mockups.getOverview
+  - kittl.data.mockups.getGroup
+  - kittl.data.mockups.search
+  - kittl.data.mockups.getSuggestions
+- scope: workspace:state:read
+  description: Reserved for workspace state reads.
+  status: reserved
+- scope: workspace:state:write
+  description: Reserved for workspace state writes.
+  status: reserved
+exempt_methods:
+  note: Always allowed regardless of declared scopes.
+  methods:
+  - method: kittl.context.get
+    purpose: Host context (drag-and-drop offset)
+  - method: kittl.dragAndDrop.startDragImageEvent
+    purpose: Client-side drag-and-drop helper
+  - method: kittl.dragAndDrop.dropImage
+    purpose: Client-side drag-and-drop helper
+  - method: kittl.stateless.send
+    purpose: Inter-extension messaging
+  - method: kittl.stateless.subscribe
+    purpose: Inter-extension messaging
+  - method: kittl.stateless.unsubscribe
+    purpose: Inter-extension messaging
+  - method: kittl.onReady
+    purpose: SDK readiness callback

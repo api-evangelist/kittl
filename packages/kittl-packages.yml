@@ -1,0 +1,136 @@
+generated: '2026-07-19'
+method: searched
+source: https://registry.npmjs.org/-/v1/search?text=@kittl
+notes: >-
+  Kittl publishes a first-party app/extension developer platform under the @kittl npm
+  scope. The SDK, CLI, backend helpers, app templates and UI kit are the official
+  developer-facing libraries; they are the client surface for building sandboxed apps
+  that run inside the Kittl editor. The @kittl scope also carries a number of vendored
+  forks of third-party graphics libraries (fontkit, pdfkit, paper.js, tinycolor2,
+  little-cms, jSquash png/jpeg, nprogress, svg-to-pdfkit, node-redlock) which are
+  republished upstream projects rather than Kittl client libraries — those are listed
+  separately under vendored_forks and are NOT marked official client SDKs.
+  The source repository referenced by the CLI and create-app packages
+  (github.com/Kittl/sandboxed-extensions) is not publicly accessible (404) as of this
+  pass; the developer platform is in beta and requires account approval for app creation.
+registries_probed:
+- npm
+- PyPI
+- Maven Central
+- NuGet
+- pkg.go.dev
+- RubyGems
+- Packagist
+- crates.io
+registries_with_results:
+- npm
+packages:
+- language: javascript
+  registry: npm
+  name: '@kittl/sdk'
+  url: https://www.npmjs.com/package/@kittl/sdk
+  install: npm install @kittl/sdk
+  license: Apache-2.0
+  latest_version: 0.0.8
+  first_published: '2026-04-13'
+  official: true
+  role: >-
+    Official JavaScript SDK for building apps on Kittl. Bridges a sandboxed app iframe
+    to the editor host over postMessage; exposes kittl.design, kittl.state,
+    kittl.upload, kittl.ai, kittl.data, kittl.auth, kittl.context, kittl.dragAndDrop
+    and kittl.stateless.
+  docs: https://sdk-docs.kittl.dev/getting-started/sdk
+- language: javascript
+  registry: npm
+  name: '@kittl/sdk-backend'
+  url: https://www.npmjs.com/package/@kittl/sdk-backend
+  install: npm install @kittl/sdk-backend
+  license: Apache-2.0
+  official: true
+  role: >-
+    Backend helpers for Kittl apps. Verifies the short-lived Kittl user JWT obtained in
+    the app frontend via kittl.auth.getUserToken(), using appId as the JWT audience.
+    Supports a pluggable persistent signing-key cache for serverless/edge backends.
+  docs: https://sdk-docs.kittl.dev/getting-started/sdk-backend
+- language: javascript
+  registry: npm
+  name: '@kittl/cli'
+  url: https://www.npmjs.com/package/@kittl/cli
+  install: npm install -g @kittl/cli
+  binary: kittl
+  license: Apache-2.0
+  latest_version: 0.0.13
+  first_published: '2026-04-10'
+  official: true
+  role: >-
+    Official command-line interface for Kittl app developers — sign in, link a local
+    project to an app draft, push manifest metadata, upload build output, and submit a
+    version for review. Command surface captured in cli/kittl-cli.yml.
+  docs: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+  repository: https://github.com/Kittl/sandboxed-extensions
+  repository_status: 404-not-public
+- language: javascript
+  registry: npm
+  name: '@kittl/create-app'
+  url: https://www.npmjs.com/package/@kittl/create-app
+  install: kittl app init
+  official: true
+  role: >-
+    Kittl app templates, used internally by the Kittl CLI to scaffold a new app
+    (Vite + HTML entrypoint layout).
+  repository: https://github.com/Kittl/sandboxed-extensions
+- language: javascript
+  registry: npm
+  name: '@kittl/ui'
+  url: https://www.npmjs.com/package/@kittl/ui
+  install: npm install @kittl/ui
+  official: true
+  role: >-
+    Kittl UI components — the design-system web components used to make an app look
+    native inside the Kittl editor. Surface captured in components/kittl-components.yml.
+  docs: https://sdk-docs.kittl.dev/UI-Kit/
+- language: javascript
+  registry: npm
+  name: '@kittl/ui-react'
+  url: https://www.npmjs.com/package/@kittl/ui-react
+  install: npm install @kittl/ui-react
+  official: true
+  role: React wrapper for Kittl UI components.
+  docs: https://sdk-docs.kittl.dev/UI-Kit/
+- language: javascript
+  registry: npm
+  name: '@kittl/ui-icons'
+  url: https://www.npmjs.com/package/@kittl/ui-icons
+  install: npm install @kittl/ui-icons
+  official: true
+  role: Collection of UI icons for use in Kittl's UI.
+  docs: https://sdk-docs.kittl.dev/Icons/
+- language: javascript
+  registry: npm
+  name: '@kittl/ui-tokens'
+  url: https://www.npmjs.com/package/@kittl/ui-tokens
+  official: true
+  role: Design tokens backing the Kittl UI kit.
+vendored_forks:
+- name: '@kittl/fontkit'
+  upstream: https://github.com/foliojs/fontkit
+- name: '@kittl/pdfkit'
+  upstream: https://github.com/foliojs/pdfkit
+- name: '@kittl/paper'
+  upstream: https://github.com/paperjs/paper.js
+- name: '@kittl/tinycolor2'
+  upstream: https://github.com/bgrins/TinyColor
+- name: '@kittl/little-cms'
+  upstream: https://github.com/mm2/Little-CMS
+- name: '@kittl/png'
+  upstream: https://github.com/jamsinclair/jSquash
+- name: '@kittl/jpeg'
+  upstream: https://github.com/jamsinclair/jSquash
+- name: '@kittl/nprogress'
+  upstream: https://github.com/rstacruz/nprogress
+- name: '@kittl/svg-to-pdfkit'
+  upstream: https://github.com/Kittl/SVG-to-PDFKit
+- name: '@kittl/node-redlock'
+  upstream: https://github.com/mike-marcacci/node-redlock
+- name: '@kittl/observability-node'
+  note: Shared Node.js observability for Kittl services and workers — internal, not a client SDK.

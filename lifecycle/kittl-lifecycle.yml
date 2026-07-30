@@ -1,0 +1,88 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+notes: >-
+  Kittl's app platform is in beta. Probed for a public status page, changelog, roadmap
+  and deprecation policy across www.kittl.com, sdk-docs.kittl.dev and help.kittl.com —
+  none are published as of this pass; those negatives are recorded honestly below rather
+  than pointed at a substitute page. No StatusPage or Deprecation pointer is emitted in
+  apis.yml because neither exists.
+platform_status:
+  stage: beta
+  gating: >-
+    An account must be approved for app creation by a Kittl admin before `kittl app init`
+    will succeed.
+  source: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+versioning:
+  sdk:
+    scheme: semver
+    current: 0.0.8
+    stability: pre-1.0
+    channel_note: >-
+      The documented script-tag delivery URL embeds a channel ("staging") and the major
+      version ("v0" for 0.x).
+    package: '@kittl/sdk'
+  cli:
+    scheme: semver
+    current: 0.0.13
+    package: '@kittl/cli'
+  app_versions:
+    scheme: auto-incremented draft versions
+    workflow: >-
+      Work happens on a draft. `kittl app update` pushes manifest metadata and
+      `kittl app upload` pushes build output to that draft; `kittl app release` submits
+      it for Kittl admin review.
+    immutability: true
+    immutability_note: >-
+      A released version is immutable — its manifest and uploaded files cannot be changed
+      afterward. Further work continues on a new draft at the next auto-incremented
+      version.
+    review_required: true
+review_process:
+  submit_command: kittl app release
+  reviewer: Kittl admin
+  publication: >-
+    A draft app is private and not visible to other users until it is officially
+    published and approved.
+  source: https://sdk-docs.kittl.dev/Guides/Setup/LocalDevelopment
+deletion:
+  command: kittl app delete [ID]
+  default_target: the app linked in .kittl/config.json
+deprecation:
+  policy_published: false
+  sunset_header: null
+  probed:
+  - https://www.kittl.com/changelog
+  - https://sdk-docs.kittl.dev/changelog
+  note: >-
+    No deprecation or sunset policy is published for the SDK or the app platform. Given
+    the pre-1.0 SDK and beta platform status, breaking change communication appears to be
+    informal as of this pass.
+status_page:
+  published: false
+  probed:
+  - https://status.kittl.com
+  result: DNS does not resolve
+changelog:
+  published: false
+  probed:
+  - https://www.kittl.com/changelog
+  - https://sdk-docs.kittl.dev/changelog
+  - https://www.kittl.com/whats-new
+  note: >-
+    No dated changelog is published for the developer platform. npm version history is
+    the only observable release trail (@kittl/sdk first published 2026-04-13,
+    @kittl/cli 2026-04-10) — too thin to warrant a changelog/ artifact.
+roadmap:
+  published: false
+  probed:
+  - https://www.kittl.com/roadmap
+sla:
+  published: false
+support:
+  help_center: https://help.kittl.com/
+  security_contact: security@kittl.com
+related:
+- cli/kittl-cli.yml
+- packages/kittl-packages.yml
+- conventions/kittl-conventions.yml

@@ -1,0 +1,104 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+name: Kittl CLI
+binary: kittl
+package: '@kittl/cli'
+license: Apache-2.0
+latest_version: 0.0.13
+status: beta
+status_note: >-
+  While the app platform is in beta, an account must be approved for app creation by a
+  Kittl admin before `kittl app init` will succeed.
+summary: >-
+  Official command-line tool for Kittl app developers. Associates a local project with a
+  Kittl app draft, syncs manifest.json and build artifacts, and advances that draft
+  through review without using the dashboard.
+install:
+- method: npm-global
+  command: npm install -g @kittl/cli
+- method: npx
+  command: npx @kittl/cli
+- method: source-link
+  command: cd packages/cli && <package-manager> link
+  note: >-
+    From a checkout of the Kittl repository; see packages/cli/README.md. The referenced
+    repository (github.com/Kittl/sandboxed-extensions) is not publicly accessible.
+shell_completion:
+  supported: true
+  command: kittl autocomplete
+  help: kittl autocomplete --help
+commands:
+- group: auth
+  commands:
+  - name: auth login
+    purpose: Sign in
+    notes: >-
+      Tries to open a browser and also prints a URL plus a short code that can be
+      completed on another device. Requires a human to be present.
+  - name: auth logout
+    purpose: Clear local session
+  - name: auth whoami
+    purpose: Show active account
+- group: app
+  commands:
+  - name: app init [PATH]
+    purpose: >-
+      Tie directory to an app; writes .kittl/config.json; optional starter scaffolding.
+      PATH defaults to "."
+    notes: >-
+      Interactive — choose or create a developer organization, then name a new app under
+      it. Exits with an error if .kittl/config.json already exists.
+  - name: app link [PATH]
+    purpose: Tie directory to an existing app; writes .kittl/config.json
+    flags:
+    - name: --overwrite
+      purpose: Replace an existing local linkage
+  - name: app update
+    purpose: Push local manifest.json to the draft
+  - name: app upload
+    purpose: Upload the build directory to the draft
+    flags:
+    - name: --dist
+      purpose: Override the build directory (defaults to dist/)
+  - name: app release
+    purpose: Submit draft for review
+    notes: >-
+      Marks the draft ready for review; a Kittl admin takes over. The submitted version
+      is immutable — further work uses a new, auto-incremented draft version.
+  - name: app delete [ID]
+    purpose: >-
+      Delete an app from Kittl; defaults to the app linked in .kittl/config.json
+global_flags:
+- name: --non-interactive
+  purpose: Skip interactive prompts
+  note: >-
+    Accepted by most commands, but NOT by `auth login` — non-interactive token-based
+    auth is documented as not yet supported, so fully unattended CI pipelines are not
+    possible as of this pass.
+- name: --help / -h
+  purpose: Per-command flags and subcommands
+project_files:
+- path: .kittl/config.json
+  purpose: >-
+    App linkage written by `app init` / `app link`. Documented as holding identifiers,
+    not secrets, and intended to be committed with the repository so teammates and CI
+    stay linked to the same app.
+- path: manifest.json
+  purpose: >-
+    Extension manifest at the app project root (not inside the build output). Schema
+    captured in json-schema/kittl-extension-manifest-schema.json.
+key_flows:
+- name: Publish an app version
+  steps:
+  - kittl auth login
+  - kittl app init
+  - edit manifest.json
+  - kittl app update
+  - pnpm run build
+  - kittl app upload
+  - kittl app release
+related:
+- packages/kittl-packages.yml
+- scopes/kittl-scopes.yml
+- lifecycle/kittl-lifecycle.yml

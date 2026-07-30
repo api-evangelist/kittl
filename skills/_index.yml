@@ -1,0 +1,56 @@
+generated: '2026-07-19'
+method: generated
+source: https://sdk-docs.kittl.dev/
+grounding_note: >-
+  Kittl publishes no OpenAPI, so these skills are grounded in the published SDK and CLI
+  reference rather than in operationIds. Every method, command, scope, manifest field and
+  code sample referenced in each skill appears verbatim in the Kittl SDK documentation at
+  sdk-docs.kittl.dev — none are invented.
+skills:
+- file: kittl-build-and-release-app.md
+  name: Build and release a Kittl app
+  surface: cli
+  api: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+  operations:
+  - kittl auth login
+  - kittl app init
+  - kittl app link
+  - kittl app update
+  - kittl app upload
+  - kittl app release
+  - kittl app delete
+- file: kittl-compose-a-design.md
+  name: Compose a design on the Kittl canvas
+  surface: sdk
+  api: https://sdk-docs.kittl.dev/References/design
+  scopes:
+  - design:state:read
+  - design:state:write
+  - uploads:create
+  operations:
+  - kittl.onReady
+  - kittl.createBatch
+  - kittl.design.board.createStandardBoard
+  - kittl.design.text.addText
+  - kittl.design.shape.createPredefinedShape
+  - kittl.design.image.addImage
+  - kittl.upload.image.upload
+  - kittl.design.object.getObject
+  - kittl.design.object.getAllByFilter
+  - kittl.state.setSelectedObjectsIds
+  - kittl.design.canvas.getExport
+- file: kittl-authenticate-app-user.md
+  name: Authenticate a Kittl app user and connect a third-party provider
+  surface: sdk
+  api: https://sdk-docs.kittl.dev/Guides/Advanced/authentication
+  operations:
+  - kittl.auth.getUserToken
+  - kittl.auth.startAuth
+  - kittl.auth.exchangeCode
+  - kittl.auth.getAuthToken
+  - KittlSDK.verifyUserToken
+related:
+- scopes/kittl-scopes.yml
+- conventions/kittl-conventions.yml
+- errors/kittl-problem-types.yml
+- cli/kittl-cli.yml

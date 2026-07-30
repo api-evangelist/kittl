@@ -1,0 +1,259 @@
+generated: '2026-07-19'
+method: derived
+source: https://sdk-docs.kittl.dev/References/design
+derivation_note: >-
+  Derived from the published SDK reference (References/* and Guides/Basic/Design/*), not
+  from OpenAPI — Kittl publishes no OpenAPI to walk $ref links through. Every entity and
+  relationship below is grounded in a documented SDK namespace or method; nothing is
+  inferred beyond what the reference states. Identifiers are opaque string IDs; Kittl
+  documents no typed id-prefix scheme.
+identifiers:
+  style: opaque string
+  field: id
+  prefixes_published: false
+  usage: >-
+    Object IDs returned by SDK methods are used to chain operations (for example
+    positioning relative to a board.id, or selecting a newly created text object).
+entities:
+- name: Artboard
+  aliases:
+  - Board
+  namespace: kittl.design.board
+  description: A design surface objects are placed on.
+  operations:
+  - createStandardBoard
+  - cloneArtboard
+  - updateArtboard
+  variants:
+  - StandardBoard
+  - MockupBoard
+  - Smartboard
+  - Videoboard
+  docs: https://sdk-docs.kittl.dev/References/board
+- name: Object
+  namespace: kittl.design.object
+  description: >-
+    The generic design object. Concrete object types (text, shape, image, video,
+    illustration, loading card) specialise it; generic utilities operate on any of them
+    by ID.
+  operations:
+  - getObject
+  - getAllByFilter
+  - removeObject
+  - setLockedState
+  - setHiddenState
+  - rotateObject
+  - rename
+  properties_documented:
+  - id
+  - name
+  - locked
+  - hidden
+  normalized_type: NormalizedObject
+  docs: https://sdk-docs.kittl.dev/References/object
+- name: Text
+  namespace: kittl.design.text
+  extends: Object
+  operations:
+  - addText
+  - updateText
+  - updateRenderPlugin
+  - updateDecorationPlugin
+  sub_objects:
+  - RenderPlugin
+  - DecorationPlugin
+  docs: https://sdk-docs.kittl.dev/References/text
+- name: Shape
+  namespace: kittl.design.shape
+  extends: Object
+  operations:
+  - createPredefinedShape
+  - createBasicShape
+  - updateShape
+  - convertShapeToMask
+  docs: https://sdk-docs.kittl.dev/References/shape
+- name: Image
+  namespace: kittl.design.image
+  extends: Object
+  operations:
+  - addImage
+  - updateImage
+  docs: https://sdk-docs.kittl.dev/References/image
+- name: Video
+  namespace: kittl.design.video
+  extends: Object
+  operations:
+  - addVideo
+  - updateVideo
+  - updatePlaylistItem
+  - removePlaylistItem
+  sub_objects:
+  - PlaylistItem
+  docs: https://sdk-docs.kittl.dev/References/video
+- name: MockupBoard
+  namespace: kittl.design.mockupboard
+  extends: Artboard
+  operations:
+  - addMockupBoard
+  - addMockupDesignObject
+  - updateMockupBoard
+  docs: https://sdk-docs.kittl.dev/References/mockupboard
+- name: LoadingCard
+  namespace: kittl.design.loadingCard
+  extends: Object
+  operations:
+  - createLoadingCard
+  - updateLoadingCard
+  docs: https://sdk-docs.kittl.dev/References/loadingCard
+- name: Layer
+  namespace: kittl.design.layers
+  description: Stacking order surface; selected via kittl.state.getSelectedLayersIds.
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Design/Layers
+- name: Group
+  namespace: kittl.design.group
+  description: Grouping of objects; documented grouping and dismantling operations.
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Design/Groups
+- name: Guide
+  namespace: kittl.design.guide
+  description: Horizontal and vertical alignment guides on the canvas.
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Design/Guides
+- name: Canvas
+  namespace: kittl.design.canvas
+  description: Rendering and export surface for the design.
+  operations:
+  - getPreviewImage
+  - getScreenshot
+  - getExport
+  docs: https://sdk-docs.kittl.dev/References/canvas
+- name: Viewport
+  namespace: kittl.state.viewport
+  description: The user's current view onto the canvas (position, zoom, transform).
+  operations:
+  - get
+  - set
+  docs: https://sdk-docs.kittl.dev/References/viewport
+- name: Font
+  namespace: kittl.data.fonts
+  description: >-
+    Custom fonts, partitioned into fonts created by the extension and all fonts available
+    to the user (the fonts:*:global scopes).
+  operations:
+  - listUserFonts
+  - listExtensionFonts
+  - get
+  - find
+  - create
+  - update
+  - delete
+  - destroy
+  - addStyle
+  - updateStyle
+  sub_objects:
+  - FontStyle
+  docs: https://sdk-docs.kittl.dev/References/data
+- name: Mockup
+  namespace: kittl.data.mockups
+  description: Read-only mockup catalog, browsable and searchable.
+  operations:
+  - get
+  - getOverview
+  - getGroup
+  - search
+  - getSuggestions
+  sub_objects:
+  - MockupGroup
+  docs: https://sdk-docs.kittl.dev/References/data
+- name: Upload
+  namespace: kittl.upload.image
+  description: >-
+    An uploaded image blob. Returns an objectName used as the src when adding the image
+    to the canvas.
+  operations:
+  - upload
+  properties_documented:
+  - objectName
+  docs: https://sdk-docs.kittl.dev/Guides/Basic/Upload
+- name: App
+  aliases:
+  - Extension
+  description: >-
+    The developer-facing unit: a sandboxed app described by manifest.json, owned by a
+    developer organization, released through immutable versions.
+  schema: json-schema/kittl-extension-manifest-schema.json
+  docs: https://sdk-docs.kittl.dev/References/appManifest
+- name: DeveloperOrganization
+  description: Owning org for apps; chosen or created during `kittl app init`.
+  docs: https://sdk-docs.kittl.dev/getting-started/kittl-cli
+relationships:
+- from: DeveloperOrganization
+  to: App
+  kind: has_many
+- from: App
+  to: Artboard
+  kind: operates_on
+  via: SDK scopes design:state:read / design:state:write
+- from: Artboard
+  to: Object
+  kind: has_many
+  via: position.relative.to = board.id
+- from: Object
+  to: Text
+  kind: specialized_by
+- from: Object
+  to: Shape
+  kind: specialized_by
+- from: Object
+  to: Image
+  kind: specialized_by
+- from: Object
+  to: Video
+  kind: specialized_by
+- from: Object
+  to: LoadingCard
+  kind: specialized_by
+- from: Artboard
+  to: MockupBoard
+  kind: specialized_by
+- from: Video
+  to: PlaylistItem
+  kind: has_many
+  via: updatePlaylistItem / removePlaylistItem
+- from: Text
+  to: RenderPlugin
+  kind: has_one
+  via: updateRenderPlugin
+- from: Text
+  to: DecorationPlugin
+  kind: has_one
+  via: updateDecorationPlugin
+- from: Group
+  to: Object
+  kind: has_many
+- from: Layer
+  to: Object
+  kind: orders
+- from: Upload
+  to: Image
+  kind: sourced_by
+  via: objectName passed as Image.src
+- from: Mockup
+  to: MockupBoard
+  kind: sourced_by
+  via: addMockupBoard
+- from: Font
+  to: FontStyle
+  kind: has_many
+  via: addStyle / updateStyle
+- from: Font
+  to: Text
+  kind: applied_to
+- from: Canvas
+  to: Artboard
+  kind: renders
+- from: Viewport
+  to: Canvas
+  kind: views
+render: null
+related:
+- scopes/kittl-scopes.yml
+- conventions/kittl-conventions.yml

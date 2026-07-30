@@ -1,0 +1,272 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "displayName": {
+            "description": "Public extension name. Changing it requires sign-off before release.",
+            "type": "string",
+            "minLength": 1
+        },
+        "icon": {
+            "description": "Filename of the extension icon inside the release directory. Must be an SVG file.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\.[sS][vV][gG]$"
+        },
+        "tagline": {
+            "description": "Short marketing summary shown to users.",
+            "type": "string",
+            "minLength": 1
+        },
+        "tags": {
+            "description": "Optional app directory tags for this extension.",
+            "minItems": 1,
+            "maxItems": 1,
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "ai-gen",
+                    "image-editing",
+                    "typography",
+                    "elements",
+                    "mockups",
+                    "commerce",
+                    "marketing",
+                    "workflow"
+                ]
+            }
+        },
+        "installPage": {
+            "description": "Install-page content shown to users before they install the extension.",
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "Install page description shown to users before install.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "coverImage": {
+                    "description": "Filename of the install page cover image in the release directory.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "termsAndConditionsLink": {
+                    "description": "Public URL for the extension terms and conditions.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "privacyPolicyLink": {
+                    "description": "Public URL for the extension privacy policy.",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "description",
+                "coverImage",
+                "termsAndConditionsLink",
+                "privacyPolicyLink"
+            ],
+            "additionalProperties": false
+        },
+        "config": {
+            "description": "Runtime configuration for the extension.",
+            "type": "object",
+            "properties": {
+                "scopes": {
+                    "description": "App scopes requested by the extension.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "design:state:read",
+                            "design:state:write",
+                            "uploads:create",
+                            "fonts:create",
+                            "fonts:read",
+                            "fonts:write",
+                            "fonts:read:global",
+                            "fonts:write:global",
+                            "uploads:global:read",
+                            "ai:credit:spend",
+                            "workspace:state:read",
+                            "workspace:state:write"
+                        ]
+                    }
+                },
+                "embed": {
+                    "type": "object",
+                    "properties": {
+                        "editorContentPanel": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path to the embedded entrypoint.",
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "path"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "editorScriptRunner": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path to the embedded entrypoint.",
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "path"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "sharedFileBrowser": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path to the embedded entrypoint.",
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "path"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "mainAppPanel": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path to the embedded entrypoint.",
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "path"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "scriptRunner": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "description": "Relative path to the embedded entrypoint.",
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "path"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "appDevelopment": {
+                    "description": "Optional local development settings for the extension app.",
+                    "type": "object",
+                    "properties": {
+                        "local": {
+                            "description": "Local development server settings.",
+                            "type": "object",
+                            "properties": {
+                                "requireHTTPS": {
+                                    "description": "Whether local development requires HTTPS.",
+                                    "type": "boolean"
+                                },
+                                "port": {
+                                    "description": "Optional local development server port.",
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 65535
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "local"
+                    ],
+                    "additionalProperties": false
+                },
+                "oauthProviders": {
+                    "description": "Optional OAuth provider configurations keyed by provider name.",
+                    "type": "object",
+                    "propertyNames": {
+                        "type": "string"
+                    },
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "authorizationUrl": {
+                                "description": "OAuth provider authorization URL.",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "clientId": {
+                                "description": "OAuth client ID issued for this extension.",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "scope": {
+                                "description": "Optional provider-specific OAuth scope string.",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "accessType": {
+                                "description": "Optional provider-specific access type parameter.",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "tokenUrl": {
+                                "description": "OAuth provider token exchange URL.",
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "customFieldMappings": {
+                                "description": "Optional provider-specific parameter name overrides keyed by extension field name.",
+                                "type": "object",
+                                "propertyNames": {
+                                    "type": "string"
+                                },
+                                "additionalProperties": {}
+                            }
+                        },
+                        "required": [
+                            "authorizationUrl",
+                            "clientId",
+                            "tokenUrl"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": [
+                "scopes",
+                "embed"
+            ],
+            "additionalProperties": false
+        },
+        "$schema": {
+            "description": "JSON Schema definition URL.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "displayName",
+        "icon",
+        "tagline",
+        "installPage",
+        "config"
+    ],
+    "additionalProperties": false
+}

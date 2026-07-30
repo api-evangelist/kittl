@@ -1,0 +1,74 @@
+generated: '2026-07-19'
+method: searched
+source: https://sdk-docs.kittl.dev/getting-started/sdk
+docs: https://sdk-docs.kittl.dev/getting-started/sdk
+format: discriminated-union
+format_note: >-
+  Not RFC 9457. Kittl publishes no HTTP API, so there are no application/problem+json
+  responses and no HTTP status taxonomy to derive from. Errors surface as a typed
+  discriminated union on the failure branch of the SdkResult envelope
+  ({ isOk: false, error }). This catalog captures the documented error classes verbatim.
+envelope:
+  success: '{ isOk: true, result: T }'
+  failure: '{ isOk: false, error: E }'
+  check: Always test isOk before reading result.
+discriminator:
+  field: error.name
+  caveat: >-
+    Only use error.name as a discriminator when the specific API documents SdkError.
+    Some SDK methods (for example kittl.ai.spendCredits) return a generic Error instead.
+base_fields:
+- name: name
+  description: Discriminator string identifying the error class.
+- name: message
+  description: Human-readable failure description.
+- name: cause
+  description: Optional underlying Error, inspectable via error.cause.
+problems:
+- name: SdkBadInputError
+  discriminator: SdkBadInputError
+  extends: Error
+  title: Invalid or missing parameters
+  when: Validation failure — invalid or missing parameters passed to an SDK method.
+  remediation: >-
+    Correct the call arguments. Check required fields and value shapes against the method
+    reference under https://sdk-docs.kittl.dev/References/.
+  source: https://sdk-docs.kittl.dev/getting-started/sdk
+- name: SdkInternalError
+  discriminator: SdkInternalError
+  extends: Error
+  title: Unexpected internal error
+  when: Unexpected internal error in the SDK or the editor host.
+  remediation: >-
+    Not caller-correctable. Inspect error.cause for the underlying failure and report to
+    Kittl if reproducible.
+  source: https://sdk-docs.kittl.dev/getting-started/sdk
+- name: TokenInvalidError
+  discriminator: TokenInvalidError
+  package: '@kittl/sdk-backend'
+  title: Kittl user token invalid
+  when: >-
+    verifyUserToken rejects the presented JWT — expired, malformed, wrong signature, or
+    issued for a different app (audience mismatch against appId).
+  remediation: Return 401 Unauthorized from the app backend.
+  source: https://sdk-docs.kittl.dev/getting-started/sdk-backend
+unnamed_failure_modes:
+- name: scope-denied
+  title: Required SDK scope not declared
+  when: >-
+    An app calls an SDK method whose required scope is absent from manifest.json
+    config.scopes.
+  shape: >-
+    Documented as an SDK error result (isOk: false) with a permission-denied style
+    message. Kittl does not publish a named error class or stable code for this case.
+  remediation: >-
+    Add the required scope to config.scopes and re-release the app draft; see
+    scopes/kittl-scopes.yml for the method-to-scope mapping.
+  source: https://sdk-docs.kittl.dev/getting-started/scopes
+coverage_note: >-
+  Kittl publishes no numbered error-code registry. The three named classes above plus the
+  scope-denied condition are the complete documented error surface as of this pass.
+related:
+- conventions/kittl-conventions.yml
+- scopes/kittl-scopes.yml
+- authentication/kittl-authentication.yml
