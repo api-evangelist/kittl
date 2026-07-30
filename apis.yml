@@ -1,23 +1,98 @@
 aid: kittl
 name: Kittl
-description: 'Kittl is a company surfaced as a portfolio company of ivp, speedinvest and added to the
-  API Evangelist network as a stub for enrichment. Sector: design. This profile is a lead awaiting the
-  enrichment pipeline.'
+description: >-
+  Kittl is a Berlin-based, browser-based graphic design platform positioned for
+  commerce-driven creative workflows — "Canva is for content, Kittl is for commerce." It
+  serves small business owners, Shopify and Etsy sellers, print-on-demand businesses, DTC
+  brands, freelancers, agencies and small creative teams, covering branding, packaging,
+  product imagery, marketing campaigns, merchandise, labels, mockups and digital assets
+  with AI-assisted creative workflows. For developers, Kittl runs an app/extension
+  platform: sandboxed web apps run in an isolated iframe inside the Kittl editor and
+  integrate with editor APIs over postMessage through the official @kittl/sdk JavaScript
+  SDK, governed by a declared scope set in manifest.json and shipped through the
+  @kittl/cli toolchain. The platform is in beta and account approval is required to
+  create apps.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.kittl.com/images/og-image.jpg
 url: https://raw.githubusercontent.com/api-evangelist/kittl/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - ivp
 - speedinvest
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: sdk-platform
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
 - Design
-apis: []
+- Graphic Design
+- Creative Tools
+- SDK
+- Developer Platform
+- Extensions
+- Print On Demand
+- E-Commerce
+- AI
+- Mockups
+- Typography
+apis:
+- aid: kittl:sdk
+  name: Kittl SDK & App Platform
+  description: >-
+    The Kittl SDK is the bridge between a sandboxed app and the Kittl editor host. It
+    exposes async namespaces — kittl.design for design operations, kittl.state for editor
+    and app state, kittl.upload for image uploads, kittl.data for the font and mockup
+    catalogs, kittl.ai for credit-metered generation, and kittl.auth for OAuth helper
+    flows. Every call returns an SdkResult envelope ({ isOk, result, error }). Access is
+    governed by a static scope set declared in manifest.json config.scopes and enforced
+    by the host at call time. Apps are packaged and released through the Kittl CLI
+    against an immutable, admin-reviewed version.
+  humanURL: https://sdk-docs.kittl.dev/
+  baseURL: https://api.kittl.com
+  tags:
+  - SDK
+  - Design
+  - Extensions
+  - Developer Platform
+  properties:
+  - type: Documentation
+    url: https://sdk-docs.kittl.dev/
+  - type: APIReference
+    url: https://sdk-docs.kittl.dev/References/design
+  - type: GettingStarted
+    url: https://sdk-docs.kittl.dev/getting-started/quickstart
+  - type: Authentication
+    url: authentication/kittl-authentication.yml
+  - type: OAuthScopes
+    url: scopes/kittl-scopes.yml
+  - type: Conventions
+    url: conventions/kittl-conventions.yml
+  - type: ErrorCatalog
+    url: errors/kittl-problem-types.yml
+  - type: DataModel
+    url: data-model/kittl-data-model.yml
+  - type: JSONSchema
+    url: json-schema/kittl-extension-manifest-schema.json
+  - type: Sandbox
+    url: sandbox/kittl-sandbox.yml
+  - type: CLI
+    url: cli/kittl-cli.yml
+  - type: Components
+    url: components/kittl-components.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -26,3 +101,70 @@ maintainers:
 common:
 - type: Website
   url: https://www.kittl.com
+- type: DeveloperPortal
+  url: https://sdk-docs.kittl.dev/
+- type: Documentation
+  url: https://sdk-docs.kittl.dev/
+- type: APIReference
+  url: https://sdk-docs.kittl.dev/References/design
+- type: GettingStarted
+  url: https://sdk-docs.kittl.dev/getting-started/quickstart
+- type: Support
+  url: https://help.kittl.com/
+- type: Blog
+  url: https://www.kittl.com/blogs
+- type: GitHubOrganization
+  url: https://github.com/Kittl
+- type: Pricing
+  url: https://www.kittl.com/pricing
+- type: SignUp
+  url: https://app.kittl.com/login
+- type: TermsOfService
+  url: https://www.kittl.com/terms
+- type: PrivacyPolicy
+  url: https://www.kittl.com/privacy
+- type: Packages
+  url: packages/kittl-packages.yml
+- type: SDKs
+  url: packages/kittl-packages.yml
+- type: CLI
+  url: cli/kittl-cli.yml
+- type: Components
+  url: components/kittl-components.yml
+- type: Sandbox
+  url: sandbox/kittl-sandbox.yml
+- type: Authentication
+  url: authentication/kittl-authentication.yml
+- type: OAuthScopes
+  url: scopes/kittl-scopes.yml
+- type: Conventions
+  url: conventions/kittl-conventions.yml
+- type: ErrorCatalog
+  url: errors/kittl-problem-types.yml
+- type: DataModel
+  url: data-model/kittl-data-model.yml
+- type: Lifecycle
+  url: lifecycle/kittl-lifecycle.yml
+- type: Conformance
+  url: conformance/kittl-conformance.yml
+- type: JSONSchema
+  url: json-schema/kittl-extension-manifest-schema.json
+- type: WellKnown
+  url: well-known/kittl-well-known.yml
+- type: SecurityTxt
+  url: well-known/kittl-security.txt
+- type: Security
+  url: https://www.kittl.com/.well-known/security.txt
+- type: VulnerabilityDisclosure
+  url: security/kittl-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/kittl-domain-security.yml
+- type: LLMsTxt
+  url: llms/kittl-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
