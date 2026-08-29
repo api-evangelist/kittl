@@ -12,6 +12,17 @@ description: >-
   SDK, governed by a declared scope set in manifest.json and shipped through the
   @kittl/cli toolchain. The platform is in beta and account approval is required to
   create apps.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
