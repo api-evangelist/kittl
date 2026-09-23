@@ -1,0 +1,26 @@
+# Front Door AI Index — kittl — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: kittl
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.kittl.com
+  final_host: www.kittl.com
+  ownership: own
+  owner: kittl
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 20
+  host_score: 20
+  density: 26.01
+  words: 769
+  tiers:
+    agentic: 0
+    core: 20
+    model: 0
+  ambiguous: 2
+  top_terms:
+    AI: 20
+    agent: 2
