@@ -64,6 +64,116 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Kittl is a company surfaced as a portfolio company of ivp, speedinvest and added to the API Evangelist network as a stub for enrichment. Sector: design. This profile is a lead awaiting the enrichment pipeline.
+Kittl is a Berlin-based, browser-based graphic design platform positioned for commerce-driven creative workflows — "Canva is for content, Kittl is for commerce." It serves small business owners, Shopify and Etsy sellers, print-on-demand businesses, DTC brands, freelancers, agencies and small creative teams, covering branding, packaging, product imagery, marketing campaigns, merchandise, labels, mockups and digital assets with AI-assisted creative workflows. For developers, Kittl runs an app/extension platform: sandboxed web apps run in an isolated iframe inside the Kittl editor and integrate with editor APIs over postMessage through the official @kittl/sdk JavaScript SDK, governed by a declared scope set in manifest.json and shipped through the @kittl/cli toolchain. The platform is in beta and account approval is required to create apps.
 
-Backed by: ivp, speedinvest — https://www.kittl.com
+**Areas:** Company · Design · Graphic Design · Creative Tools · SDK · Developer Platform · Extensions · Print on Demand · E-Commerce · Artificial Intelligence · Mockups · Typography
+
+## Kittl on APIs.io
+
+Everything profiled for Kittl is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kittl/](https://apis.io/providers/kittl/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Kittl SDK & App Platform](https://apis.io/apis/kittl/sdk/) — The Kittl SDK is the bridge between a sandboxed app and the Kittl editor host. It exposes async namespaces — kittl.design for design operations, kittl.state…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [kittl](https://apis.io/servers/kittl/kittl/)
+
+#### JSON Schema (1)
+
+The data models the API reads and writes.
+
+- [Kittl Extension Manifest](https://apis.io/schemas/kittl/kittl-extension-manifest/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Kittl Authentication](https://apis.io/security/kittl/kittl-authentication/)
+- [Kittl Domain Security](https://apis.io/security/kittl/kittl-domain-security/)
+- [Kittl Vulnerability Disclosure](https://apis.io/security/kittl/kittl-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Kittl Scopes](https://apis.io/scopes/kittl/kittl-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.kittl.com)
+- [Documentation](https://sdk-docs.kittl.dev/)
+- [Getting started](https://sdk-docs.kittl.dev/getting-started/quickstart)
+- [API reference](https://sdk-docs.kittl.dev/References/design)
+- [Pricing](https://www.kittl.com/pricing)
+- [Sign up](https://app.kittl.com/login)
+- [Support](https://help.kittl.com/)
+- [Blog](https://www.kittl.com/blogs)
+- [Security](https://www.kittl.com/.well-known/security.txt)
+- [Terms of service](https://www.kittl.com/terms)
+- [Privacy policy](https://www.kittl.com/privacy)
+- [GitHub](https://github.com/Kittl)
+
+## API Evangelist rating
+
+**Kin Score 38.2** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 7.2 |
+| Contract governance | 18.2 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 80.4 |
+| Access clarity | 31.6 |
+
+**Agent readiness 18.5** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 37.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kittl/](https://apis.io/providers/kittl/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kittl: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kittl/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
